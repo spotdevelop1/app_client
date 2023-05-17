@@ -5,13 +5,15 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Consumos from '../components/Consumos';
 import DownloadDailyConsumption from '../components/DownloadDailyConsumption';
 import { useNavigation } from '@react-navigation/native';
+import NumberPicker from '../components/NumberPicker';
 
-function EstadoCuenta() {
+function EstadoCuenta(  ) {
     const navigation = useNavigation(); 
     const [Wifiactive, setWifiactive] = useState(true);    
     const [Callactive, setCallactive] = useState(false);    
     const [MSJactive, setMSJactive] = useState(false);    
     const [Type, setType] = useState('Voz');    
+    const [selectedValue, setSelectedValue] = useState();
 
     const handleClick = (type) => {        
         setWifiactive(false)
@@ -36,6 +38,12 @@ function EstadoCuenta() {
         setType(type)
     };
 
+    // useEffect(() => {
+    //     console.log('====================================');
+    //     console.log(selectedValue);
+    //     console.log('====================================');
+    // }, [selectedValue])
+
     return ( 
         
         <View style={styles.container}>
@@ -45,6 +53,13 @@ function EstadoCuenta() {
                 </Pressable >       
                 <Image style={styles.ConsumosLogo} source={require('../../assets/img/Consumos.png')}/>
             </View>
+            <View style={styles.ContentBanner}>
+                <NumberPicker
+                    selectedValue={selectedValue}
+                    setSelectedValue={setSelectedValue}
+                />
+            </View>
+
             <View style={styles.seccionButtonsContainerMain}>
                 <View style={styles.seccionButtonsContainer}>
                     <View style={styles.line}></View>
@@ -65,14 +80,14 @@ function EstadoCuenta() {
             <View style={styles.containerConsumos}>
                 <View style={styles.contentOptions}>         
                     <DownloadDailyConsumption type={Type} 
-                        phone={3339064244}
+                        phone={selectedValue}
                         dateStart={"2023-03-03"}
                         dateEnd={"2023-03-03"}
                     />
                 </View>
                 <ScrollView style={styles.contentConsumos}> 
                     <Consumos type={10} 
-                        phone={3339064244}
+                        phone={selectedValue}
                         dateStart={"2023-03-03"}
                         dateEnd={"2023-03-03"}
                     />
