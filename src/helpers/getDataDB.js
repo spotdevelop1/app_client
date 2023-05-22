@@ -10,7 +10,7 @@ export const getDataDB = () => {
         setIsLoading(true)
         const userId = 41;
         try {
-            const response = await fetch('https://appmobile.altcel2.com/devices?userid='+userId, {
+            const response = await fetch('https://apps-ws.spot1.mx/devices?userid='+userId, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -33,7 +33,7 @@ export const getDataDB = () => {
         const user_id = 41;
         setIsLoading(true)
         try {
-            const response = await fetch('https://appmobile.altcel2.com/addDevice', {
+            const response = await fetch('https://apps-ws.spot1.mx/addDevice', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

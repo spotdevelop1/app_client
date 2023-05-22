@@ -1,6 +1,6 @@
 export async function loginApi(phone, password){
     try {
-        const response = await fetch('https://appmobile.altcel2.com/login', {
+        const response = await fetch('https://apps-ws.spot1.mx/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

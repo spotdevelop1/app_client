@@ -17,7 +17,7 @@ export async function accessTokenRequestPost(){
 export async function consultUF(service, number){
     // console.log(number+' UF')
     try {
-        const response = await fetch('https://appmobile.altcel2.com/consultUf?msisdn='+number+'&product=MOV',{
+        const response = await fetch('https://apps-ws.spot1.mx/consultUf?msisdn='+number+'&product=MOV',{
             method: 'GET'
         })
         const data = await response.json()

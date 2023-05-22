@@ -1,5 +1,5 @@
 export async function consultCdrs(type, phone, dateStart, dateEnd){
-    let url = 'https://appmobile.altcel2.com/consultCdrs?' + new URLSearchParams({
+    let url = 'https://apps-ws.spot1.mx/consultCdrs?' + new URLSearchParams({
     // let url = 'http://127.0.0.1:8000?' + new URLSearchParams({
         type,
         phone,
