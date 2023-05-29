@@ -1,22 +1,51 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextInput, StyleSheet, View ,Text, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'
 import {Picker} from '@react-native-picker/picker';
 import { globalStyle } from '../styles/'
 import { Loading } from '../components/Loading';
-
+import { getAllRates } from "../api/rates"
 
 export function PayRecharge ({closeModal}){
     const [selectedValue, setSelectedValue] = useState("Planes Disponibles");
     const [loader, setLoader] = useState([]);
+    const [rates, setRates] = useState([]);
+
+    var offerts = [];
+
+    const searchRates = async () => {
+        const offert = await getAllRates()
+        setRates(offert)
+    };
     
-    const createPay = () => {
-        setLoader(<Loading/>)
-        setTimeout(() => {
-            setLoader([])
-            Alert.alert('Exito!!','Pago realizado.');
-        }, 3000);
+    useEffect(() => {
+        searchRates();
+    }, [])
+
+
+    {
+        if (rates['offers'] != undefined) {
+            for (let index = 0; index < rates['offers'].length; index++) {
+                offerts.push(
+                    <Picker.Item label={`${rates['offers'][index].name } $${rates['offers'][index].price_sale }.00`} value={rates['offers'][index].offerID} />
+                )
+            }
+        }
     }
+   
+    useEffect(() => {
+        console.log(selectedValue);
+    }, [selectedValue])
+
+    
+    // const createPay = () => {
+    //     setLoader(<Loading/>)
+    //     setTimeout(() => {
+    //         setLoader([])
+    //         Alert.alert('Exito!!','Pago realizado.');
+    //     }, 3000);
+    // }
+
     return (
         <View style={styles.modalPaymentRecharge}>
             <View style={styles.ContentBanner}>
@@ -30,9 +59,8 @@ export function PayRecharge ({closeModal}){
                         onValueChange={(itemValue, itemIndex) =>
                             setSelectedValue(itemValue)
                         }>
-                        <Picker.Item label="Plan movilidad 30 Dias - $200" value="10212231" />
-                        <Picker.Item label="Plan movilidad 15 Dias - $100" value="10212232" />
-                        <Picker.Item label="Plan movilidad 7 Dias - $50" value="10212233" />
+
+                        {offerts}
                     </Picker>
                 </View>
             </View>
