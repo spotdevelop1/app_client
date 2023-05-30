@@ -23,7 +23,7 @@ const LoginPrueba = () => {
     const handIngresar  = async () =>{
         setIsLoading(true)
         const data = await loginApi(phone, password)
-        console.log(data.http_code)
+        console.log(data)
         if (data.http_code == 200) {
             setIsLoading(false)
             login(data)

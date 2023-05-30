@@ -6,7 +6,7 @@ export async function loginApi(phone, password){
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                phone,
+                cellphone:phone,
                 password,
             })
         }) 
