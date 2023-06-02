@@ -6,10 +6,11 @@ import { globalStyle } from '../styles/'
 import { Loading } from '../components/Loading';
 import { getAllRates } from "../api/rates"
 
-export function PayRecharge ({closeModal}){
+export function PayRecharge ({closeModal, number}){
     const [selectedValue, setSelectedValue] = useState("Planes Disponibles");
     const [loader, setLoader] = useState([]);
     const [rates, setRates] = useState([]);
+    const [numberRecharge, setNumberRecharge] = useState(number);
 
     var offerts = [];
 

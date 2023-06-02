@@ -6,7 +6,7 @@ import  {ModalConsumo}  from '../components/ModalConsumos';
 import { consultUF } from '../api/altan';
 
 function Card({device}) {
-    const {number, company, service, user_email, created_at, id} = device;
+    const {number, rate, service, user_email, created_at, id} = device;
     const [modalConsumo, setModalConsumo] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     if (isLoading) {
@@ -32,6 +32,7 @@ function Card({device}) {
     const closeModal = () => {
         setModalConsumo(false)
     }
+    // console.log(device)
     return ( 
         <View style={styles.card}>
             <View style={[styles.headerDevice,{flex:1, backgroundColor: '#2D4C89', flexDirection: 'row', justifyContent: 'space-between'}]}>
@@ -49,7 +50,7 @@ function Card({device}) {
                     </View>
                     <View style={[styles.textFirst]}>
                         <Text style={styles.text}>Paquete:</Text>
-                        <Text style={styles.infoCenter}>MIFI 20 GB TN USO INTERNO</Text>
+                        <Text style={styles.infoCenter}>{rate}</Text>
                     </View>
                     <View style={styles.mtText}>
                         <Text style={styles.text}>Número</Text>
