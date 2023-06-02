@@ -23,7 +23,7 @@ function Panel() {
             setIsLoading(false)
           })()
     }, [])
-//     console.log(typeof(devices))
+    console.log(devices)
     
 // return false
     if (isLoading) {

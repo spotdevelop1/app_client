@@ -4,9 +4,12 @@ import { getDataDB } from '../helpers/getDataDB';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { PayRecharge } from '../components/PayRecharge';
 import { globalStyle } from '../styles';
+import { getDeviceApi } from '../api/devices';
+
 
 export const NumbersRecharge = () => {
     const [modalPayRecharge, setModalPayRecharge] = useState(false)
+    const [devices, setDevices] = useState()
 
     const onClick = () => {
       setModalPayRecharge(true)
@@ -15,9 +18,35 @@ export const NumbersRecharge = () => {
     const closeModal = () => {
         setModalPayRecharge(false)
       }
+
+      useEffect(() => {
+        ( async () =>{
+            const device = await getDeviceApi()
+
+            // const arrayDevice = JSON.parse(device)
+            setDevices(device)
+            setIsLoading(false)
+          })()
+    }, [])
   return (
     <View style={styles.contenedor}>
-      <View style={styles.ContainerNumber}>
+
+      {
+        devices.map((number) =>{
+          return  <View style={styles.ContainerNumber}>
+                    <Text style ={styles.NumberRecharge}>{number.number}</Text>
+                    <Pressable onPress={()=> onClick(onClick)} style={[styles.btnAddRecharge,]}>
+                      <Icon style={styles.IconButtonsWhite} name='phone-portrait-outline'/>
+                      <Text style ={styles.TextBtnRecharge}>Recarga</Text>
+                    </Pressable>
+                    <Modal transparent={true} visible={modalPayRecharge} >
+                        <PayRecharge setModalPayRecharge={onClick} closeModal={closeModal} number={number.number}/>
+                    </Modal>
+                  </View>
+        })
+
+      }
+      {/* <View style={styles.ContainerNumber}>
           <Text style ={styles.NumberRecharge}>9613601404</Text>
           <Pressable onPress={()=> onClick(onClick)} style={[styles.btnAddRecharge,]}>
             <Icon style={styles.IconButtonsWhite} name='phone-portrait-outline'/>
@@ -36,17 +65,7 @@ export const NumbersRecharge = () => {
           <Modal transparent={true} visible={modalPayRecharge} >
               <PayRecharge setModalPayRecharge={onClick} closeModal={closeModal} />
           </Modal>
-      </View>
-      <View style={styles.ContainerNumber}>
-          <Text style ={styles.NumberRecharge}>9613601404</Text>
-          <Pressable onPress={()=> onClick(onClick)} style={[styles.btnAddRecharge,]}>
-            <Icon style={styles.IconButtonsWhite} name='phone-portrait-outline'/>
-            <Text style ={styles.TextBtnRecharge}>Recarga</Text>
-          </Pressable>
-          <Modal transparent={true} visible={modalPayRecharge} >
-              <PayRecharge setModalPayRecharge={onClick} closeModal={closeModal} />
-          </Modal>
-      </View>
+      </View> */}
     </View>
 
   )
