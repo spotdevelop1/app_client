@@ -13,16 +13,6 @@ export function PayRecharge ({closeModal}){
 
     var offerts = [];
 
-    const searchRates = async () => {
-        const offert = await getAllRates()
-        setRates(offert)
-    };
-    
-    useEffect(() => {
-        searchRates();
-    }, [])
-
-
     {
         if (rates['offers'] != undefined) {
             for (let index = 0; index < rates['offers'].length; index++) {
@@ -34,7 +24,7 @@ export function PayRecharge ({closeModal}){
     }
    
     useEffect(() => {
-        console.log(selectedValue);
+        console.log(tajeta);
     }, [selectedValue])
 
     
@@ -71,7 +61,7 @@ export function PayRecharge ({closeModal}){
                 <TextInput maxLength={5} style={styles.input} placeholderTextColor="#000" keyboardType='default'
                             placeholder='00/00'/>
                 <TextInput maxLength={5} style={styles.input} placeholderTextColor="#000" keyboardType='default'
-                            placeholder='00000'/>
+                            placeholder='000'/>
             </View>
             <View style={styles.btns}>
                 <Icon.Button style={[styles.btnsPay, styles.btnsPayDanger]} name='arrow-back-outline' onPress={() => closeModal()}>Regresar</Icon.Button>
