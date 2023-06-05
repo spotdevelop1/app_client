@@ -9,7 +9,7 @@ import { getDeviceApi } from '../api/devices';
 
 export const NumbersRecharge = () => {
     const [modalPayRecharge, setModalPayRecharge] = useState(false)
-    const [devices, setDevices] = useState()
+    const [devices, setDevices] = useState([])
 
     const onClick = () => {
       setModalPayRecharge(true)
@@ -25,13 +25,16 @@ export const NumbersRecharge = () => {
 
             // const arrayDevice = JSON.parse(device)
             setDevices(device)
-            setIsLoading(false)
-          })()
+            // setIsLoading(false)
+          })()  
     }, [])
+    // console.log(typeof(devices))
+    // return false;
   return (
     <View style={styles.contenedor}>
 
       {
+        devices.length === 0 ? <Text>Aún no cuenta con dispositivos</Text> :    
         devices.map((number) =>{
           return  <View style={styles.ContainerNumber}>
                     <Text style ={styles.NumberRecharge}>{number.number}</Text>
