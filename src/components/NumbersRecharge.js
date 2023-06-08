@@ -9,7 +9,7 @@ import { getDeviceApi } from '../api/devices';
 
 export const NumbersRecharge = () => {
     const [modalPayRecharge, setModalPayRecharge] = useState(false)
-    const [devices, setDevices] = useState()
+    const [devices, setDevices] = useState([])
 
     const onClick = () => {
       setModalPayRecharge(true)
@@ -25,25 +25,28 @@ export const NumbersRecharge = () => {
 
             // const arrayDevice = JSON.parse(device)
             setDevices(device)
-            setIsLoading(false)
-          })()
+            // setIsLoading(false)
+          })()  
     }, [])
+    // console.log(typeof(devices))
+    // return false;
   return (
     <View style={styles.contenedor}>
 
       {
-        // devices.map((number) =>{
-        //   return  <View style={styles.ContainerNumber}>
-        //             <Text style ={styles.NumberRecharge}>{number.number}</Text>
-        //             <Pressable onPress={()=> onClick(onClick)} style={[styles.btnAddRecharge,]}>
-        //               <Icon style={styles.IconButtonsWhite} name='phone-portrait-outline'/>
-        //               <Text style ={styles.TextBtnRecharge}>Recarga</Text>
-        //             </Pressable>
-        //             <Modal transparent={true} visible={modalPayRecharge} >
-        //                 <PayRecharge setModalPayRecharge={onClick} closeModal={closeModal} number={number.number}/>
-        //             </Modal>
-        //           </View>
-        // })
+        devices.length === 0 ? <Text>Aún no cuenta con dispositivos</Text> :    
+        devices.map((number) =>{
+          return  <View style={styles.ContainerNumber}>
+                    <Text style ={styles.NumberRecharge}>{number.number}</Text>
+                    <Pressable onPress={()=> onClick(onClick)} style={[styles.btnAddRecharge,]}>
+                      <Icon style={styles.IconButtonsWhite} name='phone-portrait-outline'/>
+                      <Text style ={styles.TextBtnRecharge}>Recarga</Text>
+                    </Pressable>
+                    <Modal transparent={true} visible={modalPayRecharge} >
+                        <PayRecharge setModalPayRecharge={onClick} closeModal={closeModal} number={number.number}/>
+                    </Modal>
+                  </View>
+        })
 
       }
       <View style={styles.ContainerNumber}>
