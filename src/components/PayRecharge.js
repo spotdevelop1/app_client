@@ -4,15 +4,31 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import {Picker} from '@react-native-picker/picker';
 import { globalStyle } from '../styles/'
 import { Loading } from '../components/Loading';
-import { getAllRates } from "../api/rates"
+import { getAllRates } from "../api/rates";
+import { STRIPE_PUBLIC_KEY} from "../../env.js"
+const stripe = require("stripe-client")(STRIPE_PUBLIC_KEY)
+// const stripe_pay = require('stripe')(STRIPR_SECRET_KEY);
+
 
 export function PayRecharge ({closeModal, number}){
     const [selectedValue, setSelectedValue] = useState("Planes Disponibles");
     const [loader, setLoader] = useState([]);
     const [rates, setRates] = useState([]);
     const [numberRecharge, setNumberRecharge] = useState(number);
-
+    const [name, setName] = useState("");
+    const [card, setCard] = useState("");
+    const [month, setMonth] = useState("");
+    const [year, setYear] = useState("");
+    const [cvc, setCvc] = useState("");
+    
     var offerts = [];
+    var information = {};
+    var tarjeta = {};
+
+    const searchRates = async () => {
+        const offert = await getAllRates()
+        setRates(offert)
+    };
 
     {
         if (rates['offers'] != undefined) {
@@ -25,17 +41,43 @@ export function PayRecharge ({closeModal, number}){
     }
    
     useEffect(() => {
-        console.log(tajeta);
+        searchRates();
     }, [selectedValue])
-
     
-    // const createPay = () => {
-    //     setLoader(<Loading/>)
-    //     setTimeout(() => {
-    //         setLoader([])
-    //         Alert.alert('Exito!!','Pago realizado.');
-    //     }, 3000);
-    // }
+    const createPay = async () => {
+        information = {
+            card: {
+              number: card,
+              exp_month: month,
+              exp_year: year,
+              cvc: cvc,
+              name: name
+            }
+        }
+
+        tarjeta = await stripe.createToken(information);
+        if(tarjeta?.error){
+            console.log(numberRecharge);
+            Alert.alert('Error!!', 'Los datos no correponde a ninguna tarjeta validad, verifique sus datos.');       
+
+        }else{
+            console.log(number);    
+            Alert.alert('Pago completado!!', 'En vere recibirá su recarga.');       
+        }
+
+        async function paymentIntent(tarjeta) {
+            const response = await stripe.paymentIntents.create({
+                amount: 10,
+                currency: 'mxn',
+                payment_method_types: [tarjeta],
+            });
+            return response;
+   
+        }
+        
+        setLoader(<Loading/>)
+
+    }
 
     return (
         <View style={styles.modalPaymentRecharge}>
@@ -57,18 +99,27 @@ export function PayRecharge ({closeModal, number}){
             </View>
             <Text style={styles.textCenter}>Datos de la tarjeta</Text>
             <View style={styles.containerCreditCard}>
-                <TextInput maxLength={12} style={styles.input} placeholderTextColor="#000" keyboardType='default'
-                             placeholder='0000-0000-0000'/>
-                <TextInput maxLength={5} style={styles.input} placeholderTextColor="#000" keyboardType='default'
-                            placeholder='00/00'/>
-                <TextInput maxLength={5} style={styles.input} placeholderTextColor="#000" keyboardType='default'
-                            placeholder='000'/>
+                <TextInput maxLength={16} style={[styles.input, styles.bordersInputs]} placeholderTextColor="#000" keyboardType='default'
+                             placeholder='Nombre del propietario' value={name} onChangeText={setName}/>
+            </View>
+
+            <View style={styles.containerCreditCard}>
+                <TextInput maxLength={16} style={[styles.input, styles.bordersInputs]} placeholderTextColor="#000" keyboardType='default'
+                             placeholder='0000-0000-0000-0000' value={card} onChangeText={setCard}/>
+            </View>
+            <View  style={styles.containerCreditCard}>
+                <TextInput maxLength={2} style={[styles.input, styles.bordersInputs]} placeholderTextColor="#000" keyboardType='default'
+                            placeholder='mes'  value={month} onChangeText={setMonth}/>
+                <TextInput maxLength={2} style={[styles.input, styles.bordersInputs]} placeholderTextColor="#000" keyboardType='default'
+                            placeholder='año'  value={year} onChangeText={setYear}/>
+                <TextInput maxLength={3} style={[styles.input, styles.bordersInputs]} placeholderTextColor="#000" keyboardType='default'
+                            placeholder='cvc'  value={cvc} onChangeText={setCvc}/>
             </View>
             <View style={styles.btns}>
                 <Icon.Button style={[styles.btnsPay, styles.btnsPayDanger]} name='arrow-back-outline' onPress={() => closeModal()}>Regresar</Icon.Button>
                 <Icon.Button  style={[styles.btnsPay, styles.btnsPayPrimary]} name='cart-outline' onPress={() => createPay()}>Recargar</Icon.Button>
             </View>   
-            {loader}
+            {/* {loader} */}
         </View>
     );
 }
@@ -79,7 +130,8 @@ const styles = StyleSheet.create({
         marginVertical:20,
         marginTop:0,
         flexDirection:'row',
-        justifyContent:'center'
+        justifyContent:'center',
+
     },
     input:{
         padding: 10,
@@ -144,5 +196,12 @@ const styles = StyleSheet.create({
         borderColor: '#7b6cc8',
         borderWidth: 1,
         color:'#506a7b',
+    },
+    bordersInputs:{
+        borderColor: '#7b6cc8',
+        borderWidth: 2,
+        color:'#506a7b',
+        margin: 3,
+        borderRadius: 7
     }
 })
