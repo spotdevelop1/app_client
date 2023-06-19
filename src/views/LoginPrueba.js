@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
     passwordContainer: {
         flexDirection: 'row',
       },
-      inputStyle: {
+    inputStyle: {
         flex: 1,
         borderBottomWidth : 1.0, 
         borderBottomColor:'#2D4C89',
         color: 'grey'
-      },
+    },
     textBIenvenida: {
         color: '#2D4C89',
         fontSize: 30,
