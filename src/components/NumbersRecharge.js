@@ -49,7 +49,7 @@ export const NumbersRecharge = () => {
         })
 
       }
-      <View style={styles.ContainerNumber}>
+      {/* <View style={styles.ContainerNumber}>
           <Text style ={styles.NumberRecharge}>9613601404</Text>
           <Pressable onPress={()=> onClick(onClick)} style={[styles.btnAddRecharge,]}>
             <Icon style={styles.IconButtonsWhite} name='phone-portrait-outline'/>
@@ -68,7 +68,7 @@ export const NumbersRecharge = () => {
           <Modal transparent={true} visible={modalPayRecharge} >
               <PayRecharge setModalPayRecharge={onClick} closeModal={closeModal} />
           </Modal>
-      </View>
+      </View> */}
     </View>
 
   )
