@@ -5,15 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons'
 export function Loading ({closeModal}){
     return (
         <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" />
+            <ActivityIndicator color="red" size={ 100 } style={styles.indicator}/>
         </View>     
     );
 }
 
 const styles = StyleSheet.create({
     loadingContainer:{
-        position:'absolute',
-        bottom:50,
-        left:'47%'
+        position: 'absolute', top: 60, left: 0, right: 0, bottom: 60, justifyContent: 'center', alignItems: 'center'
     }
 })

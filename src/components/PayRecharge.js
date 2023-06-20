@@ -5,16 +5,17 @@ import {Picker} from '@react-native-picker/picker';
 import { globalStyle } from '../styles/'
 import { Loading } from '../components/Loading';
 import { getAllRates } from "../api/rates";
+import { rechargeStripe } from "../api/recharge";
 import { STRIPE_PUBLIC_KEY} from "../../env.js"
 const stripe = require("stripe-client")(STRIPE_PUBLIC_KEY)
-// const stripe_pay = require('stripe')(STRIPR_SECRET_KEY);
 
 
-export function PayRecharge ({closeModal, number}){
+export function PayRecharge ({closeModal, number, userId}){
     const [selectedValue, setSelectedValue] = useState("Planes Disponibles");
     const [loader, setLoader] = useState([]);
+    const [button, setButton] = useState(false);
     const [rates, setRates] = useState([]);
-    const [numberRecharge, setNumberRecharge] = useState(number);
+    // const [numberRecharge, setNumberRecharge] = useState(number);
     const [name, setName] = useState("");
     const [card, setCard] = useState("");
     const [month, setMonth] = useState("");
@@ -45,6 +46,8 @@ export function PayRecharge ({closeModal, number}){
     }, [selectedValue])
     
     const createPay = async () => {
+        setLoader(<Loading/>)
+        setButton(true);
         information = {
             card: {
               number: card,
@@ -55,27 +58,23 @@ export function PayRecharge ({closeModal, number}){
             }
         }
 
+
         tarjeta = await stripe.createToken(information);
         if(tarjeta?.error){
-            console.log(numberRecharge);
             Alert.alert('Error!!', 'Los datos no correponde a ninguna tarjeta validad, verifique sus datos.');       
-
         }else{
-            console.log(number);    
-            Alert.alert('Pago completado!!', 'En vere recibirá su recarga.');       
+            const response = await rechargeStripe(number, tarjeta.id, selectedValue, userId);
+            setLoader()
+            if (response.http_code == 1) {
+                Alert.alert('Exito!!', response.message);       
+            }if(response.http_code == 0){
+                Alert.alert('Error!!', response.message);       
+            }else{
+                Alert.alert('Error!!', response.message);       
+            }
+            setButton(false);
         }
 
-        async function paymentIntent(tarjeta) {
-            const response = await stripe.paymentIntents.create({
-                amount: 10,
-                currency: 'mxn',
-                payment_method_types: [tarjeta],
-            });
-            return response;
-   
-        }
-        
-        setLoader(<Loading/>)
 
     }
 
@@ -117,9 +116,9 @@ export function PayRecharge ({closeModal, number}){
             </View>
             <View style={styles.btns}>
                 <Icon.Button style={[styles.btnsPay, styles.btnsPayDanger]} name='arrow-back-outline' onPress={() => closeModal()}>Regresar</Icon.Button>
-                <Icon.Button  style={[styles.btnsPay, styles.btnsPayPrimary]} name='cart-outline' onPress={() => createPay()}>Recargar</Icon.Button>
+                <Icon.Button disabled={button} style={[styles.btnsPay, styles.btnsPayPrimary]} name='cart-outline' onPress={() => createPay()}>Recargar</Icon.Button>
             </View>   
-            {/* {loader} */}
+            {loader}
         </View>
     );
 }
