@@ -3,6 +3,9 @@ import {Text,StyleSheet,View, Alert, TouchableOpacity, Image, TextInput, ImageBa
 import { globalStyle } from '../styles/';
 import useAuth from '../hooks/useAuth';
 import Icon  from 'react-native-vector-icons/Ionicons';
+// import { getUserIdApi } from '../api/userId';
+import { getDeviceApi } from '../api/devices';
+import { dataClient } from '../api/dataClient';
 
 function Profile() {
     const [showPass, setShowPass] = useState(true)
@@ -10,7 +13,25 @@ function Profile() {
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [cellphone, setCellphone] = useState('')
     const {logout} = useAuth();
+
+
+    useEffect(() => {
+        ( async () =>{
+            const data = await getDeviceApi()
+            const user_id = data[0].user_id
+
+            const userData = await dataClient(user_id)
+            setCellphone(userData[0].cellphone)
+            setEmail(userData[0].email)
+            setLastName(userData[0].lastname)
+            setName(userData[0].name)
+            console.log(userData[0].cellphone)
+          })()  
+    }, [])
+
+
     const prueba = () =>{
         setShowPass(!showPass)
     }
@@ -57,7 +78,7 @@ function Profile() {
            <View style={styles.body}>
                 {/* <Image style={styles.imgProfile} source={require('../../assets/img/profile.png')}/> */}
                 <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
-                    <Text style={{color: 'black'}}>Carlos Banda</Text>
+                    <Text style={{color: 'black'}}>{name} {lastName}</Text>
                 </View>
                 <View style={{marginHorizontal:'10%'}}>
                     <View style={{flexDirection: 'row', justifyContent:'space-between', marginBottom:30}}>
@@ -72,15 +93,18 @@ function Profile() {
                         <View style={{marginBottom:30}}>
                             <TextInput style = {{borderBottomWidth : 1.0, borderBottomColor:'#2D4C89', color: 'grey'}} placeholderTextColor="grey" placeholder='Correo'  keyboardType='email-address' value={email} onChangeText={setEmail}/>
                         </View>
+                        <View style={{marginBottom:30}}>
+                            <TextInput style = {{borderBottomWidth : 1.0, borderBottomColor:'#2D4C89', color: 'grey'}} placeholderTextColor="grey" placeholder='Número'  keyboardType='numeric' value={cellphone} onChangeText={setCellphone}/>
+                        </View>
                         <View style={styles.passwordContainer}>
                             <TextInput
                                 style={styles.inputStyle}
                                 secureTextEntry ={showPass}
-                                placeholder="Password"
+                                placeholder="Contraseña Nueva"
                                 placeholderTextColor="grey"
                                 value={password} onChangeText={setPassword}
                                 />
-                            <Pressable onPress={() => prueba()}>
+                            <Pressable onPress={() => prueba()}> 
                                 <Icon
                                     name='eye-outline'
                                     color='#000'
