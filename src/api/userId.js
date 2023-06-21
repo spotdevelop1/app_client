@@ -11,8 +11,8 @@ export async function setUserIdApi(userId){
 
 export async function getUserIdApi(){
     try {
-        const token = parseInt(await AsyncStorage.getItem("userId"))
-        return token
+        const userId = parseInt(await AsyncStorage.getItem("userId"))
+        return userId
     } catch (error) {
         return null;
     }
