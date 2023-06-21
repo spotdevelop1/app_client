@@ -25,7 +25,7 @@ export const NumbersRecharge = () => {
         setModalPayRecharge(false)
     }
 
-    queueMicrotask(() => {
+    useEffect(() => {
         ( async () =>{
             const device = await getDeviceApi()
 
