@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Text,StyleSheet,View, Pressable, Modal, Button, Touchable, ActivityIndicator} from 'react-native'
+import {Text,StyleSheet,View, Pressable, Modal, Button, Touchable, ActivityIndicator, Dimensions} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { getDataDB } from '../helpers/getDataDB';
 import Carousel from 'react-native-snap-carousel';
@@ -64,8 +64,8 @@ function Panel() {
                     devices.length === 0 ? <Text>Aún no cuenta con dispositivos</Text> :
                     <View style={{flex: 1}}>
                         <Carousel
-                        itemWidth={300}
-                        sliderWidth={400}
+                        sliderWidth={Dimensions.get('window').width}
+                        itemWidth={Dimensions.get('window').width/1.3}
                         data={devices}
                         keyExtractor={(item) => item.id}
                         renderItem={({item}) => {return(
