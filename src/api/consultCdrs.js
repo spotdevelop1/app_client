@@ -1,17 +1,16 @@
 export async function consultCdrs(type, phone, dateStart, dateEnd){
-    let url = 'https://apps-ws.spot1.mx/consultCdrs?' + new URLSearchParams({
-    // let url = 'http://127.0.0.1:8000?' + new URLSearchParams({
+    let url = 'https://apps-ws-test.spot1.mx/consultCdrs?' + new URLSearchParams({
         type,
         phone,
         dateStart,
         dateEnd,
     })
-    // return url;
     try {
-        const response = await fetch(url)
-        return data = await response.json()
+        const response = await (await fetch(url)).json();
+        return response
     } catch (error) {
         return console.log(error)
     }
+
 }
 

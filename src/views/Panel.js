@@ -38,9 +38,9 @@ function Panel() {
         <View style={styles.container}>
             
             <View style={styles.addDevice}>
-                <Pressable style={[styles.btnAddDevice, {backgroundColor:'#FFFFFF'}]} onPress={() => setIsVisible(true)}>
-                    <Text style={{color:'black', alignItems:'center'}}>Agregar Dispositivo <Icon name='add-outline' size={25} color="blue"/></Text>
-                </Pressable>
+                {/* <Pressable style={[styles.btnAddDevice, {backgroundColor:'#FFFFFF'}]} onPress={() => setIsVisible(true)}>
+                    <Text style={{color:'black', alignItems:'center'}}> Dispositivo <Icon name='add-outline' size={25} color="blue"/></Text>
+                </Pressable> */}
 
                 <Modal animationType='slide' transparent={true} visible={isVisible}>
                     <View style={styles.modalAdd}>

@@ -6,46 +6,45 @@ import Consumos from '../components/Consumos';
 import DownloadDailyConsumption from '../components/DownloadDailyConsumption';
 import { useNavigation } from '@react-navigation/native';
 import NumberPicker from '../components/NumberPicker';
+import { black } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 
 function EstadoCuenta(  ) {
     const navigation = useNavigation(); 
-    const [Wifiactive, setWifiactive] = useState(true);    
+    const [Wifiactive, setWifiactive] = useState(false);    
     const [Callactive, setCallactive] = useState(false);    
-    const [MSJactive, setMSJactive] = useState(false);    
-    const [Type, setType] = useState('Voz');    
+    const [SMSactive, setSMSactive] = useState(false);    
+    const [Type, setType] = useState('Datos');    
     const [selectedValue, setSelectedValue] = useState();
+    // const [Consumos, setConsumos] = useState([]);    
+    let consum = [];
 
-    const handleClick = (type) => {        
-        setWifiactive(false)
-        setCallactive(false)
-        setMSJactive(false)
-        switch (type) {
+    const handleClick = () => {        
+        switch (Type) {
             case 'Datos': 
                 setWifiactive(!Wifiactive)
-                // setType(3)
+                setCallactive(false)
+                setSMSactive(false)
                 break;
             case 'Voz':
                 setCallactive(!Callactive)
-                // setType(2)
+                setWifiactive(false)
+                setSMSactive(false)
                 break;
             case 'SMS': 
-                setMSJactive(!MSJactive)
-                // setType(1)
+                setSMSactive(!SMSactive)
+                setCallactive(false)
+                setWifiactive(false)
                 break;        
             default:
                 break;
         }
-        setType(type)
     };
+    
+    useEffect(() => {
+        handleClick()
+    }, [Type])
 
-    // useEffect(() => {
-    //     console.log('====================================');
-    //     console.log(selectedValue);
-    //     console.log('====================================');
-    // }, [selectedValue])
-
-    return ( 
-        
+    return (        
         <View style={styles.container}>
             <View style={styles.ContentBanner}>
                 <Pressable onPress={() => navigation.navigate('Panel')}>
@@ -60,20 +59,24 @@ function EstadoCuenta(  ) {
                 />
             </View>
 
+            {/* <Pressable onPress={()=>consultConsums(true)}>
+                <Text style={[styles.BtnConsult]}>Consultar Consumos</Text>
+            </Pressable> */}
+
             <View style={styles.seccionButtonsContainerMain}>
                 <View style={styles.seccionButtonsContainer}>
                     <View style={styles.line}></View>
-                    <Pressable onPress={()=>handleClick('Datos')} style={[styles.seccionButtons, Wifiactive ? styles.seccionButtonsBorderActivate : styles.seccionButtonsBorderDisable]}>
+                    <Pressable onPress={()=>setType('Datos')} style={[styles.seccionButtons, Wifiactive ? styles.seccionButtonsBorderActivate : styles.seccionButtonsBorderDisable]}>
                         <Icon style={[styles.IconButtons, Wifiactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]} name='wifi'/>
                         <Text style={[styles.TextWhitIcon, Wifiactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}>Internet</Text>
                     </Pressable >
-                    <Pressable onPress={()=>handleClick('Voz')} style={[styles.seccionButtons, Callactive ? styles.seccionButtonsBorderActivate : styles.seccionButtonsBorderDisable]}>
+                    <Pressable onPress={()=>setType('Voz')} style={[styles.seccionButtons, Callactive ? styles.seccionButtonsBorderActivate : styles.seccionButtonsBorderDisable]}>
                         <Icon style={[styles.IconButtons, Callactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}  name='phone'/>
                         <Text style={[styles.TextWhitIcon, Callactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}>Llamadas</Text>
                     </Pressable>
-                    <Pressable onPress={()=>handleClick('SMS')} style={[styles.seccionButtons, MSJactive ? styles.seccionButtonsBorderActivate : styles.seccionButtonsBorderDisable]}>
-                        <Icon style={[styles.IconButtons, MSJactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}  name='commenting-o'/>
-                        <Text style={[styles.TextWhitIcon, MSJactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}>Mensajes</Text>
+                    <Pressable onPress={()=>setType('SMS')} style={[styles.seccionButtons, SMSactive ? styles.seccionButtonsBorderActivate : styles.seccionButtonsBorderDisable]}>
+                        <Icon style={[styles.IconButtons, SMSactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}  name='commenting-o'/>
+                        <Text style={[styles.TextWhitIcon, SMSactive ? styles.seccionButtonsActivate : styles.seccionButtonsDisable]}>Mensajes</Text>
                     </Pressable>
                 </View>
             </View>
@@ -81,15 +84,16 @@ function EstadoCuenta(  ) {
                 <View style={styles.contentOptions}>         
                     <DownloadDailyConsumption type={Type} 
                         phone={selectedValue}
-                        dateStart={"2023-03-03"}
-                        dateEnd={"2023-03-03"}
+                        dateStart={"2023-06-26"}
+                        dateEnd={"2023-06-27"}
                     />
                 </View>
                 <ScrollView style={styles.contentConsumos}> 
-                    <Consumos type={10} 
+                    <Consumos
+                        type={Type} 
                         phone={selectedValue}
-                        dateStart={"2023-03-03"}
-                        dateEnd={"2023-03-03"}
+                        dateStart={"2023-06-26"}
+                        dateEnd={"2023-06-27"}
                     />
                 </ScrollView>
             </View>
@@ -277,9 +281,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         // alignItems: 'center',
     },
-
     btns:{
         ...globalStyle.btnsModal
+    },
+    BtnConsult:{
+        alignSelf:'center',
+        color:'white',
+        fontSize:20,
+        marginTop:20,
+        backgroundColor:'#2f3541',
+        padding:10,
+        paddingHorizontal:20,
+        borderRadius:10
     }
 })
 export default EstadoCuenta;

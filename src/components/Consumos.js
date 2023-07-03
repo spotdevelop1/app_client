@@ -5,41 +5,43 @@ import { consultCdrs } from "../api/consultCdrs"
 
 
 function Consumos({type, phone, dateStart, dateEnd}) {
-
-  // consultCdrs(type, phone, dateStart, dateEnd).then((res) => {
-  //   console.log(res)
-  // })
-  // .catch((e) => {
-  //   console.log(e.message)
-  // })
-
-console.log(type);
-  let  a = [];
-  {for (let index = 0; index < type; index++) {
-    a.push(
-      <View style={styles.contentOptions}>
-        <View style={[styles.consumosContainer]}>
-          <View style={[styles.consumosHeader]}>
-            <View style={[styles.consumosHeaderContainers]}>
-              <Icon style={[styles.consumosIconPrimary]} name='calendar'/>
-              <Text style={[styles.consumosText]}>12 Ene</Text>
-            </View>
-            <View style={[styles.line]}></View>
-            <View style={[styles.consumosHeaderContainers]}>
-              <Text style={[styles.consumosText]}>
-                {type}
-              </Text>
-              <Icon style={[styles.consumosIcon, styles.consumosIconActive]} name='angle-double-down'/>
+  const [Consumos, setConsumos] = useState([]);    
+  let consum = [];
+  
+  const consultConsums = async () => {
+    const response = await consultCdrs(type, phone, dateStart, dateEnd);
+    {for (let i = 0; i < response.length; i++) {
+      consum.push(
+        <View style={styles.contentOptions}>
+          <View style={[styles.consumosContainer]}>
+            <View style={[styles.consumosHeader]}>
+              <View style={[styles.consumosHeaderContainers]}>
+                <Icon style={[styles.consumosIconPrimary]} name='calendar'/>
+                <Text style={[styles.consumosText]}>{response[i].START_DATE}</Text>
+              </View>
+              <View style={[styles.line]}></View>
+              <View style={[styles.consumosHeaderContainers]}>
+                <Text style={[styles.consumosText]}>
+                 {parseInt(response[i].consumos).toFixed(2)} {response[i].UNIDAD}
+                </Text>
+                <Icon style={[styles.consumosIcon, styles.consumosIconActive]} name='angle-double-down'/>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    )
-  }}
+      )
+    }}
+    setConsumos(consum)
+  };
+
+  useEffect(() => {
+    consultConsums()
+  }, [type])
+
 
   return (
     <View>
-      {a}
+      {Consumos}
     </View>
   );
 

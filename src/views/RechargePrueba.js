@@ -21,12 +21,12 @@ export const RechargePrueba = () => {
         <View style={styles.numbersRecharge}>
             <NumbersRecharge/>
         </View>
-        <View style={styles.addDevice}>
+        {/* <View style={styles.addDevice}>
             <Pressable style={styles.btnAddDevice}  onPress={() => {}}>
                 <Text style={styles.textBtn}>Agregar Dispositivo</Text>
                 <Icon name='add-outline' style={styles.IconBtn}/>
             </Pressable>
-        </View>
+        </View> */}
     </View>
 
   )
