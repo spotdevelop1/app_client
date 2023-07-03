@@ -1,19 +1,18 @@
-export async function registerApi(name, email, phone, password, passwordConfirm){
+export async function registerApi(cellphone, password, passwordConfirm){
     try {
-        const response = await fetch('https://apps-ws.spot1.mx/signIn', {
+        const response = await fetch('https://apps-ws-test.spot1.mx/signIn', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name,
-                email,
-                phone,
+                cellphone,
                 password,
                 passwordConfirm
             })
         }) 
-        return data = await response.json()
+        let data = await response.json()
+        return data
     } catch (error) {
         console.log(error)
     }
