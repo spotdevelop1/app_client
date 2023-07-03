@@ -22,7 +22,6 @@ export async function consultUF(service, number){
             method: 'GET'
         })
         const data = await response.json()
-        console.log(data.status + ' UF')
         return data
     } catch (error) {
         return error

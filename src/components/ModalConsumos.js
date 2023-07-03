@@ -4,10 +4,9 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import { globalStyle } from '../styles/'
 import Icon from 'react-native-vector-icons/Ionicons'
 
-export function ModalConsumo ({service, imei, closeModal, status})  {
+export function ModalConsumo ({datosConsumidos, datosRestantes, closeModal, status, dateActivate,datosTotal})  {
     // const [imeiDis, setImeiDis] = useState(imei)
     // useState
-    console.log(status)
   return (
     <View style={styles.modalConsumos}>
         <View style={styles.contentConsumos}>
@@ -26,7 +25,7 @@ export function ModalConsumo ({service, imei, closeModal, status})  {
                     <View style={styles.infodateStatus}>
                         <View>
                             <Text style={styles.textBody}>Fecha de Activación</Text>
-                            <Text style={styles.text}>10/07/2022</Text>
+                            <Text style={styles.text}>{dateActivate}</Text>
                         </View>
                         <View>
                             <Text style={styles.textBody}>Estado</Text>
@@ -89,15 +88,15 @@ export function ModalConsumo ({service, imei, closeModal, status})  {
                         
                             <View>
                                 <Text style={styles.textBody}>Contratado</Text>
-                                <Text style={styles.text}>100 Gb</Text>
+                                <Text style={styles.text}>{datosTotal.toFixed(2)} Gb</Text>
                             </View>
                             <View>
                                 <Text style={styles.textBody}>Consumo</Text>
-                                <Text style={styles.text}>3.99 Gb</Text>
+                                <Text style={styles.text}>{datosConsumidos.toFixed(2)} GB</Text>
                             </View>
                             <View>
                                 <Text style={styles.textBody}>Restante </Text>
-                                <Text style={styles.text}>10 mbs</Text>
+                                <Text style={styles.text}>{datosRestantes.toFixed(2)} GB</Text>
                             </View>
                         </View>
                     </View>

@@ -9,6 +9,13 @@ function Card({device}) {
     const {number, rate, service, user_email, created_at, id} = device;
     const [modalConsumo, setModalConsumo] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [status, setStatus] = useState('')
+    const [dateActivate, setDateActivate] = useState('')
+    const [datosTotal, setDatosTotal] = useState('')
+    const [datosConsumidos, setDatosConsumidos] = useState('')
+    const [datosRestantes, setDatosRestantes] = useState('')
+    const [datos, setDatos] = useState([])
+    
     if (isLoading) {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignContent: 'center' }}>
@@ -18,20 +25,18 @@ function Card({device}) {
     }
 
     const onClick = async() => {
-        // setIsLoading(true)
+        setIsLoading(true)
         const data = await consultUF(service, number)
+            setStatus(data.status)
+            setDateActivate(data.date_activation)
+            setDatosTotal(data.datosTotal)
+            setDatosConsumidos(data.datosConsumido)
+            setDatosRestantes(data.datosRestantes)
+            setDatos(data.consultUF.freeUnits.nacionales)
+            console.log(data.consultUF.freeUnits.nacionales)
             setModalConsumo(true)
+            setIsLoading(false)
 
-        ModalConsumo({service,imei, status})
-            // setIsLoading(false)
-
-        // if (Object.keys(data).length >= 1) {
-        //     setModalConsumo(true)
-        //     const {imei, freeUnits, icc, rate, status} = data.consultUF
-        //     console.log(status, +' STATUS')
-        //     ModalConsumo({service,imei, status})
-        //     setIsLoading(false)
-        // }
     }
 
     const closeModal = () => {
@@ -76,7 +81,7 @@ function Card({device}) {
             </View>
             <Pressable style={styles.btnConsumos} onPress={()=> onClick(onClick)}><Text style={styles.textBtn}>Consumos de datos</Text></Pressable>
             <Modal transparent={true}  visible={modalConsumo}>
-                <ModalConsumo setModalConsumo={onClick} closeModal={closeModal}  service={service}/>
+                <ModalConsumo setModalConsumo={onClick} closeModal={closeModal}  service={service} status={status} dateActivate={dateActivate} datosTotal={datosTotal} datosConsumidos={datosConsumidos} datosRestantes={datosRestantes}/>
             </Modal>
         </View>
     );
