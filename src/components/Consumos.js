@@ -32,6 +32,9 @@ function Consumos({type, phone, dateStart, dateEnd}) {
       )
     }}
     setConsumos(consum)
+    console.log('====================================');
+    console.log(consum);
+    console.log('====================================');
   };
 
   useEffect(() => {
