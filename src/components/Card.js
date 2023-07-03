@@ -18,15 +18,20 @@ function Card({device}) {
     }
 
     const onClick = async() => {
-        setIsLoading(true)
+        // setIsLoading(true)
         const data = await consultUF(service, number)
-        if (Object.keys(data).length >= 1) {
             setModalConsumo(true)
-            const {imei, freeUnits, icc, rate, status} = data.consultUF
-            console.log(status, +' STATUS')
-            ModalConsumo({service,imei, status})
-            setIsLoading(false)
-        }
+
+        ModalConsumo({service,imei, status})
+            // setIsLoading(false)
+
+        // if (Object.keys(data).length >= 1) {
+        //     setModalConsumo(true)
+        //     const {imei, freeUnits, icc, rate, status} = data.consultUF
+        //     console.log(status, +' STATUS')
+        //     ModalConsumo({service,imei, status})
+        //     setIsLoading(false)
+        // }
     }
 
     const closeModal = () => {

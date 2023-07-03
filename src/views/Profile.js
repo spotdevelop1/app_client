@@ -6,6 +6,7 @@ import Icon  from 'react-native-vector-icons/Ionicons';
 // import { getUserIdApi } from '../api/userId';
 import { getDeviceApi } from '../api/devices';
 import { dataClient } from '../api/dataClient';
+import { updateClient } from '../api/updateClient';
 
 function Profile() {
     const [showPass, setShowPass] = useState(true)
@@ -36,6 +37,25 @@ function Profile() {
         setShowPass(!showPass)
     }
 
+    const updateData = async () => {
+        // console.log({name, lastName, email, password, cellphone})
+        // return false
+        const data = await updateClient({name, lastName, email, password, cellphone})
+        if (data.http_code == '200') {
+            Alert.alert(
+                'Datos Guardados correctamente'
+            )
+        }else if (data.http_code == '500') {
+            Alert.alert(
+                'Datos erroneos'
+            )
+        }else if (data.http_code == '400') {
+            Alert.alert(
+                'Datos erroneos'
+            )
+        }
+    }
+
     const saveData = () => {
         Alert.alert(
             "Guardar datos",
@@ -47,7 +67,7 @@ function Profile() {
                 },
                 {
                     text: 'Si',
-                    onPress: logout
+                    onPress: updateData
                 }
             ],
             {cancelable: false}
@@ -97,7 +117,7 @@ function Profile() {
                             <TextInput style = {{borderBottomWidth : 1.0, borderBottomColor:'#2D4C89', color: 'grey'}} placeholderTextColor="grey" placeholder='Número'  keyboardType='numeric' value={cellphone} onChangeText={setCellphone}/>
                         </View>
                         <View style={styles.passwordContainer}>
-                            <TextInput
+                            <TextInput 
                                 style={styles.inputStyle}
                                 secureTextEntry ={showPass}
                                 placeholder="Contraseña Nueva"
