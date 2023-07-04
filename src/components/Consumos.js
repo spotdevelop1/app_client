@@ -24,7 +24,7 @@ function Consumos({type, phone, dateStart, dateEnd}) {
                 <Text style={[styles.consumosText]}>
                  {parseInt(response[i].consumos).toFixed(2)} {response[i].UNIDAD}
                 </Text>
-                <Icon style={[styles.consumosIcon, styles.consumosIconActive]} name='angle-double-down'/>
+                {/* <Icon style={[styles.consumosIcon, styles.consumosIconActive]} name='angle-double-down'/> */}
               </View>
             </View>
           </View>
