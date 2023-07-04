@@ -11,7 +11,7 @@ function DownloadDailyConsumption({type, phone, dateStart, dateEnd}) {
 
     useEffect(() => {
         searchConsumo()
-    }, [])
+    }, [type, phone, dateStart, dateEnd])
 
     function searchConsumo() {
         consultCdrs(type, phone, dateStart, dateEnd).then((res) => {
@@ -24,7 +24,10 @@ function DownloadDailyConsumption({type, phone, dateStart, dateEnd}) {
  
     const createPdf = async () => {     
         await searchConsumo()
-        const pdfHtml = await PdfConsumption(Consumos)
+        const pdfHtml = await PdfConsumption(Consumos, phone)
+        console.log('====================================');
+        console.log(pdfHtml);
+        console.log('====================================');
         const options = {
             html: pdfHtml,
             fileName: 'Consumos',
@@ -32,7 +35,8 @@ function DownloadDailyConsumption({type, phone, dateStart, dateEnd}) {
         }
 
         let fileDownload = await RNHTMLtoPDF.convert(options)
-        Alert.alert('Guardado exitoso!!', 'Ubicacion:' + fileDownload.filePath, [
+        // Alert.alert('Guardado exitoso!!', 'Ubicacion:' + fileDownload.filePath, [
+        Alert.alert('Guardado exitoso!!', 'Puede descargar el archivo en la vista previa', [
             { text: 'Cerrar', style: 'cancel' },
             { text: 'Abrir!', onPress: () => openFile(fileDownload.filePath) }
         ], { cancelable: true });

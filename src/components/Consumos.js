@@ -39,7 +39,7 @@ function Consumos({type, phone, dateStart, dateEnd}) {
 
   useEffect(() => {
     consultConsums()
-  }, [type])
+  }, [type, phone, dateStart, dateEnd])
 
 
   return (

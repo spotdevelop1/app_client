@@ -6,6 +6,7 @@ import Consumos from '../components/Consumos';
 import DownloadDailyConsumption from '../components/DownloadDailyConsumption';
 import { useNavigation } from '@react-navigation/native';
 import NumberPicker from '../components/NumberPicker';
+import DatePicker from 'react-native-date-picker'
 import { black } from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 
 function EstadoCuenta(  ) {
@@ -16,6 +17,8 @@ function EstadoCuenta(  ) {
     const [Type, setType] = useState('Datos');    
     const [selectedValue, setSelectedValue] = useState();
     const [modalShow, setModalShow] = useState(false);
+    const [dateStart, setDateStart] = useState(new Date())
+    const [dateEnd, setDateEnd] = useState(new Date())
     // const [Consumos, setConsumos] = useState([]);    
     let consum = [];
 
@@ -53,6 +56,7 @@ function EstadoCuenta(  ) {
                 </Pressable >       
                 <Image style={styles.ConsumosLogo} source={require('../../assets/img/Consumos.png')}/>
             </View>
+            
             <View style={styles.ContentBanner}>
                 <NumberPicker
                     selectedValue={selectedValue}
@@ -81,27 +85,59 @@ function EstadoCuenta(  ) {
                     </Pressable>
                 </View>
             </View>
+
             <View style={styles.containerConsumos}>
                 <View style={styles.contentOptions}>         
                     <DownloadDailyConsumption type={Type} 
                         phone={selectedValue}
-                        dateStart={"2023-06-26"}
-                        dateEnd={"2023-06-27"}
+                        dateStart={dateStart}
+                        dateEnd={dateEnd}
                     />
                 </View>
                 <ScrollView style={styles.contentConsumos}> 
                     <Consumos
                         type={Type} 
                         phone={selectedValue}
-                        dateStart={"2023-06-26"}
-                        dateEnd={"2023-06-28"}
+                        dateStart={dateStart}
+                        dateEnd={dateEnd}
                     />
                 </ScrollView>
             </View>
+
             <Modal transparent={true} visible={modalShow} >
                 <View style={modal.modalContainer}>
+
+                    <View style={modal.containerDates}>
+                        <Text style={[modal.textTitle]}>Fecha de inicio</Text>
+                        <DatePicker
+                            mode={'date'}
+                            date={dateStart}
+                            onDateChange={
+                                (date) => {
+                                    setDateStart(date)
+                                }
+                            }
+                            textColor={'#000000'}
+                            androidVariant={'nativeAndroid'}
+                        />
+                    </View>
+
+                    <View style={modal.containerDates}>
+                        <Text style={[modal.textTitle]}>Fecha de final</Text>
+                        <DatePicker
+                            mode={'date'}
+                            date={dateEnd}
+                            onDateChange={
+                                (date) => {
+                                    setDateEnd(date)
+                                }
+                            }
+                            textColor={'#000000'}
+                            androidVariant={'nativeAndroid'}
+                        />
+                    </View>
                     
-                    <Pressable onPress={()=>setModalShow(false)}>
+                    <Pressable style={modal.buttonClose} onPress={()=>setModalShow(false)}>
                         <Text style={[styles.BtnConsult]}>Cerrar ventana</Text>
                     </Pressable>
                 </View>
@@ -308,7 +344,20 @@ const styles = StyleSheet.create({
 const modal = StyleSheet.create({
     modalContainer:{
         backgroundColor:'white',
-        flex:1
+        flex:1,
+        justifyContent: 'flex-end',
+        paddingBottom: 100
+    },
+    containerDates:{
+        alignSelf:'center',
+        alignItems:'center',
+        paddingVertical:40
+    },
+    textTitle:{
+        paddingVertical:20,
+        fontSize:30,
+        color:'black',
     }
 })
+
 export default EstadoCuenta;

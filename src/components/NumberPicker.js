@@ -21,7 +21,7 @@ function NumberPicker({ selectedValue, setSelectedValue }) {
 
     {for (let index = 0; index < devices.length; index++) {
         numbers.push(
-            <Picker.Item label={devices[index].number} value={devices[index].number} />
+            <Picker.Item style={styles.textNumber} label={devices[index].number} value={devices[index].number} />
         )
     }}
 
@@ -29,6 +29,7 @@ function NumberPicker({ selectedValue, setSelectedValue }) {
 
     return (
         <Picker
+            style={styles.pickerNumber}
             selectedValue={selectedValue}
             onValueChange={(itemValue, itemIndex) =>
                 setSelectedValue(itemValue)
@@ -38,5 +39,14 @@ function NumberPicker({ selectedValue, setSelectedValue }) {
     );
 
 }
+
+
+const styles = StyleSheet.create({
+    textNumber:{
+        fontSize:20,
+        alignSelf:'center',
+        color:'#767bf5',
+    }
+})
 
 export default NumberPicker
