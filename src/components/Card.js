@@ -33,7 +33,6 @@ function Card({device}) {
             setDatosConsumidos(data.datosConsumido)
             setDatosRestantes(data.datosRestantes)
             setDatos(data.consultUF.freeUnits.nacionales)
-            console.log(data.consultUF.freeUnits.nacionales)
             setModalConsumo(true)
             setIsLoading(false)
 
@@ -81,7 +80,7 @@ function Card({device}) {
             </View>
             <Pressable style={styles.btnConsumos} onPress={()=> onClick(onClick)}><Text style={styles.textBtn}>Consumos de datos</Text></Pressable>
             <Modal transparent={true}  visible={modalConsumo}>
-                <ModalConsumo setModalConsumo={onClick} closeModal={closeModal}  service={service} status={status} dateActivate={dateActivate} datosTotal={datosTotal} datosConsumidos={datosConsumidos} datosRestantes={datosRestantes}/>
+                <ModalConsumo setModalConsumo={onClick} closeModal={closeModal}  service={service} status={status} dateActivate={dateActivate} datosTotal={datosTotal} datosConsumidos={datosConsumidos} datosRestantes={datosRestantes} datos={datos}/>
             </Modal>
         </View>
     );
