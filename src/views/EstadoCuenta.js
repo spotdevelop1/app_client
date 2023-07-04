@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {Text, StyleSheet, View, Pressable, ScrollView, Image } from 'react-native'
+import {Text, StyleSheet, View, Pressable, ScrollView, Image, Modal } from 'react-native'
 import { globalStyle } from '../styles';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Consumos from '../components/Consumos';
@@ -15,6 +15,7 @@ function EstadoCuenta(  ) {
     const [SMSactive, setSMSactive] = useState(false);    
     const [Type, setType] = useState('Datos');    
     const [selectedValue, setSelectedValue] = useState();
+    const [modalShow, setModalShow] = useState(false);
     // const [Consumos, setConsumos] = useState([]);    
     let consum = [];
 
@@ -59,9 +60,9 @@ function EstadoCuenta(  ) {
                 />
             </View>
 
-            {/* <Pressable onPress={()=>consultConsums(true)}>
-                <Text style={[styles.BtnConsult]}>Consultar Consumos</Text>
-            </Pressable> */}
+            <Pressable onPress={()=>setModalShow(true)}>
+                <Text style={[styles.BtnConsult]}>Seleccionar Fecha</Text>
+            </Pressable>
 
             <View style={styles.seccionButtonsContainerMain}>
                 <View style={styles.seccionButtonsContainer}>
@@ -93,10 +94,18 @@ function EstadoCuenta(  ) {
                         type={Type} 
                         phone={selectedValue}
                         dateStart={"2023-06-26"}
-                        dateEnd={"2023-06-27"}
+                        dateEnd={"2023-06-28"}
                     />
                 </ScrollView>
             </View>
+            <Modal transparent={true} visible={modalShow} >
+                <View style={modal.modalContainer}>
+                    
+                    <Pressable onPress={()=>setModalShow(false)}>
+                        <Text style={[styles.BtnConsult]}>Cerrar ventana</Text>
+                    </Pressable>
+                </View>
+            </Modal>
         </View>
     );
 
@@ -293,6 +302,13 @@ const styles = StyleSheet.create({
         padding:10,
         paddingHorizontal:20,
         borderRadius:10
+    }
+})
+
+const modal = StyleSheet.create({
+    modalContainer:{
+        backgroundColor:'white',
+        flex:1
     }
 })
 export default EstadoCuenta;
