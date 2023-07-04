@@ -11,7 +11,11 @@ function Consumos({type, phone, dateStart, dateEnd}) {
   const consultConsums = async () => {
     const response = await consultCdrs(type, phone, dateStart, dateEnd);
     {for (let i = 0; i < response.length; i++) {
+      console.log('====================================');
+      console.log(response[i].consumos);
+      console.log('====================================');
       consum.push(
+        
         <View style={styles.contentOptions}>
           <View style={[styles.consumosContainer]}>
             <View style={[styles.consumosHeader]}>
@@ -22,7 +26,8 @@ function Consumos({type, phone, dateStart, dateEnd}) {
               <View style={[styles.line]}></View>
               <View style={[styles.consumosHeaderContainers]}>
                 <Text style={[styles.consumosText]}>
-                 {parseInt(response[i].consumos).toFixed(2)} {response[i].UNIDAD}
+                 {parseFloat(response[i].consumos).toFixed(2)} {response[i].UNIDAD}
+                 {/* {response[i].consumos} {response[i].UNIDAD} */}
                 </Text>
                 {/* <Icon style={[styles.consumosIcon, styles.consumosIconActive]} name='angle-double-down'/> */}
               </View>
@@ -32,9 +37,7 @@ function Consumos({type, phone, dateStart, dateEnd}) {
       )
     }}
     setConsumos(consum)
-    console.log('====================================');
-    console.log(consum);
-    console.log('====================================');
+
   };
 
   useEffect(() => {
