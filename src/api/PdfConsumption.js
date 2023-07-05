@@ -52,7 +52,7 @@ function creatTable(consumos) {
         consumosTable += `
         <tr>
             <td>${consumo.START_DATE}</td>
-            <td>${parseInt(consumo.consumos).toFixed(2)} ${consumo.UNIDAD}</td>
+            <td>${parseFloat(consumo.consumos).toFixed(2)} ${consumo.UNIDAD}</td>
         </tr>
         `
     });
