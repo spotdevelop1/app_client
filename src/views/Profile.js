@@ -11,7 +11,7 @@ import { updateClient } from '../api/updateClient';
 function Profile() {
     const [showPass, setShowPass] = useState(true)
     const [name, setName] = useState('')
-    const [lastName, setLastName] = useState('')
+    const [lastname, setLastname] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [cellphone, setCellphone] = useState('')
@@ -26,7 +26,7 @@ function Profile() {
             const userData = await dataClient(user_id)
             setCellphone(userData[0].cellphone)
             setEmail(userData[0].email)
-            setLastName(userData[0].lastname)
+            setLastname(userData[0].lastname)
             setName(userData[0].name)
             console.log(userData[0].cellphone)
           })()  
@@ -40,7 +40,7 @@ function Profile() {
     const updateData = async () => {
         // console.log({name, lastName, email, password, cellphone})
         // return false
-        const data = await updateClient({name, lastName, email, password, cellphone})
+        const data = await updateClient({name, lastname, email, password, cellphone})
         if (data.http_code == '200') {
             Alert.alert(
                 'Datos Guardados correctamente'
@@ -98,7 +98,7 @@ function Profile() {
            <View style={styles.body}>
                 {/* <Image style={styles.imgProfile} source={require('../../assets/img/profile.png')}/> */}
                 <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
-                    <Text style={{color: 'black'}}>{name} {lastName}</Text>
+                    <Text style={{color: 'black'}}>{name} {lastname}</Text>
                 </View>
                 <View style={{marginHorizontal:'10%'}}>
                     <View style={{flexDirection: 'row', justifyContent:'space-between', marginBottom:30}}>
@@ -106,7 +106,7 @@ function Profile() {
                             <TextInput style = {{borderBottomWidth : 1.0, borderBottomColor:'#2D4C89', color: 'grey', }} placeholderTextColor="grey" placeholder='Nombre(s)' keyboardType='default' value={name} onChangeText={setName}/>
                         </View>
                         <View >
-                            <TextInput style = {{borderBottomWidth : 1.0, borderBottomColor:'#2D4C89', color: 'grey', }} placeholderTextColor="grey" placeholder='Apellido(s)' keyboardType='default' value={lastName} onChangeText={setLastName}/>
+                            <TextInput style = {{borderBottomWidth : 1.0, borderBottomColor:'#2D4C89', color: 'grey', }} placeholderTextColor="grey" placeholder='Apellido(s)' keyboardType='default' value={lastname} onChangeText={setLastname}/>
                         </View>
                     </View>
                     <View>

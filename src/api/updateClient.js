@@ -15,6 +15,7 @@ export async function updateClient({name, lastname, cellphone, email, password})
                 password
             })
         }) 
+        console.log(response)
         return response.json()
     } catch (error) {
         console.log(error)
