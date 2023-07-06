@@ -1,6 +1,6 @@
 export async function registerApi(cellphone, password, passwordConfirm){
     try {
-        const response = await fetch('https://apps-ws-test.spot1.mx/signIn', {
+        const response = await fetch('https://apps-ws.spot1.mx/signIn', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

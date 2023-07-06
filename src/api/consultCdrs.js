@@ -1,5 +1,5 @@
 export async function consultCdrs(type, phone, dateStart, dateEnd){
-    let url = 'https://apps-ws-test.spot1.mx/consultCdrs?' + new URLSearchParams({
+    let url = 'https://apps-ws.spot1.mx/consultCdrs?' + new URLSearchParams({
         type,
         phone,
         dateStart,
