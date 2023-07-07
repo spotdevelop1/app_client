@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import SplashScreen from 'react-native-splash-screen'
 import React, { useEffect, useMemo, useState } from "react";
 import {Alert, StyleSheet} from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
@@ -30,6 +31,7 @@ const App = () => {
   
 
   useEffect(() => {
+    SplashScreen.hide();
     ( async () =>{
       const token = await getTokenApi()
       if (token) {

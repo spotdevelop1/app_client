@@ -1,6 +1,8 @@
 package com.clientsapp;
-
+import android.os.Bundle; // here
 import com.facebook.react.ReactActivity;
+// react-native-splash-screen >= 0.3.1
+import org.devio.rn.splashscreen.SplashScreen; // here
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
@@ -19,6 +21,13 @@ public class MainActivity extends ReactActivity {
    * Returns the instance of the {@link ReactActivityDelegate}. There the RootView is created and
    * you can specify the rendered you wish to use (Fabric or the older renderer).
    */
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+      SplashScreen.show(this);  // here
+      super.onCreate(savedInstanceState);
+  }
+
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
     return new MainActivityDelegate(this, getMainComponentName());
